@@ -3,6 +3,7 @@
 import { GoogleGenAI } from "@google/genai";
 import type { FunctionCall, LiveServerMessage, Session } from "@google/genai";
 import { useCallback, useEffect, useRef, useState } from "react";
+import AdminModal from "./admin-modal";
 import {
   END_CALL_FUNCTION_NAME,
   LIVE_AGENT_CONFIG,

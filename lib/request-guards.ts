@@ -56,6 +56,14 @@ export function checkRateLimit(
   return { allowed: true, retryAfterSeconds: 0 };
 }
 
+export function getBucketsCount() {
+  return buckets.size;
+}
+
+export function resetRateLimitBuckets() {
+  buckets.clear();
+}
+
 /** Allow same-origin browser requests, including trusted HTTPS tunnel domains. */
 export function isSameOriginRequest(request: Request) {
   const origin = request.headers.get("origin");

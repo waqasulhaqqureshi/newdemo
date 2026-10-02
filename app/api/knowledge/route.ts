@@ -4,6 +4,7 @@ import {
   isSameOriginRequest,
   NO_STORE_HEADERS,
 } from "@/lib/request-guards";
+import { recordKnowledgeQuery } from "@/lib/stats-tracker";
 
 export const runtime = "nodejs";
 
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
 
   // Retrieval stays in-process: no extra embedding request or vector database
   // needs to sit between a caller's question and the Live API response.
+  recordKnowledgeQuery();
   const matches = retrieveKnowledge(query.trim(), 3);
 
   return jsonResponse({

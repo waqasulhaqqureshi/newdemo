@@ -8,6 +8,10 @@ import {
   isSameOriginRequest,
   NO_STORE_HEADERS,
 } from "@/lib/request-guards";
+import {
+  recordSessionGranted,
+  recordSessionRequest,
+} from "@/lib/stats-tracker";
 
 export const runtime = "nodejs";
 
@@ -26,6 +30,8 @@ export async function POST(request: Request) {
   if (!isSameOriginRequest(request)) {
     return jsonResponse({ error: "This request is not allowed." }, 403);
   }
+
+  recordSessionRequest();
 
   const minuteLimit = checkRateLimit(request, "live-token-minute", 8, 60_000);
   const hourlyLimit = checkRateLimit(
@@ -80,6 +86,8 @@ export async function POST(request: Request) {
         502,
       );
     }
+
+    recordSessionGranted();
 
     return jsonResponse({
       accessToken: token.name,
